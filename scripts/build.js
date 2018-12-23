@@ -38,7 +38,7 @@ async function ensureDirs() {
   await mkdir(paths.build)
 }
 
-async function copySourceFiles() {
+function copySourceFiles() {
   return Promise.all([
     copyPackageJson(),
     copy(path.join(paths.src, 'index.js'), path.join(paths.tmp, 'index.js')),
