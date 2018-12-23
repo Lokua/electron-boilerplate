@@ -1,5 +1,9 @@
-import { log } from 'console'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-log('Hello from renderer.mjs')
+global.h = React.createElement
 
-document.getElementById('root').textContent = 'Hello'
+ReactDOM.render(
+  h('h1', null, 'Hello, World'),
+  document.getElementById('root')
+)

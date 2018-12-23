@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "electron": "4.0.0",
-    "esm": "3.0.84"
+    "esm": "3.0.84",
+    "react": "16.7.0",
+    "react-dom": "16.7.0"
   }
 }
