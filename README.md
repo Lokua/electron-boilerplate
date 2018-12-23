@@ -9,3 +9,6 @@ be removed with little refactoring.
 React without JSX is ready to go, however if not using React you 
 can uninstall the react dependencies and remove the React setup code from
 [./src/renderer.mjs](./src/renderer.mjs)
+
+The project also includes a simple build script using electron-packager. Currently
+only does OSX but should be pretty easy to add other platforms

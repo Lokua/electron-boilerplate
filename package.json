@@ -1,15 +1,19 @@
 {
   "name": "@lokua/electron-boilerplate",
   "version": "0.0.1",
-  "description": "",
+  "description": "Minimal electron boilerplate",
   "main": "src/index.js",
   "scripts": {
     "start": "npx electron .",
     "build": "node scripts/build"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["electron", "boilerplate", "minimal", "react"],
+  "author": "Joshua Kleckner <lokua@lokua.net> (https://github.com/Lokua)",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lokua/electron-boilerplate.git"
+  },
   "devDependencies": {
     "chalk": "2.4.1",
     "electron": "4.0.0",
