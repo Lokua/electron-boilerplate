@@ -3,90 +3,76 @@ const path = require('path')
 const { promisify } = require('util')
 const rimraf = require('rimraf')
 const c = require('chalk')
-const webpack = require('webpack')
-const webpackConfig = require('../webpack.config.prod')
 const electronPackager = require('electron-packager')
 const pkg = require('../package.json')
 
 const rmdir = promisify(rimraf)
 const writeFile = promisify(fs.writeFile)
 const copy = promisify(fs.copyFile)
-const packager = promisify(electronPackager)
+const mkdir = promisify(fs.mkdir)
 
 const paths = {
   src: path.join(__dirname, '../src'),
-  build: path.join(__dirname, '../build'),
-  releaseBuilds: path.join(__dirname, '../release-builds')
+  tmp: path.join(__dirname, '../tmp'),
+  build: path.join(__dirname, '../build')
 }
 
 main()
 
 async function main() {
   const start = Date.now()
-  console.info(c.cyan('removing old builds'))
   await clean()
-
-  console.info(c.cyan('running prod webpack'))
-  await runWebpack()
-
-  console.info(c.cyan('copying over needed sourcefiles'))
-  await copyNeededSourceFiles()
-
-  console.info(c.cyan('build electron app for osx'))
+  await ensureDirs()
+  await copySourceFiles()
   await buildElectronOsx()
-
+  await rmdir(paths.tmp)
   console.info(c.green(`done in ${Date.now() - start}ms`))
 }
 
 function clean() {
-  return Promise.all([rmdir(paths.build), rmdir(paths.releaseBuilds)])
+  return Promise.all([rmdir(paths.tmp), rmdir(paths.build)])
 }
 
-async function copyNeededSourceFiles() {
+async function ensureDirs() {
+  await mkdir(paths.tmp)
+  await mkdir(paths.build)
+}
+
+async function copySourceFiles() {
   return Promise.all([
     copyPackageJson(),
-    copy(path.join(paths.src, 'main.js'), path.join(paths.build, 'main.js')),
+    copy(path.join(paths.src, 'index.js'), path.join(paths.tmp, 'index.js')),
     copy(
       path.join(paths.src, 'index.html'),
-      path.join(paths.build, 'index.html')
+      path.join(paths.tmp, 'index.html')
     )
   ])
 }
 
 function copyPackageJson() {
   const updated = Object.assign({}, pkg, {
-    main: './main.js'
+    main: './index.js'
   })
 
   return writeFile(
-    path.join(paths.build, 'package.json'),
+    path.join(paths.tmp, 'package.json'),
     JSON.stringify(updated, null, 2),
     'utf-8'
   )
 }
 
-function runWebpack() {
-  return new Promise((resolve, reject) => {
-    webpack(webpackConfig, (err, stats) => {
-      if (err || stats.hasErrors()) {
-        reject(err)
-      }
-
-      resolve()
-    })
-  })
-}
-
 function buildElectronOsx() {
-  return packager({
+  return electronPackager({
     dir: paths.build,
     prune: true,
     name: pkg.productName,
     arch: 'x64',
     platform: 'darwin',
+
+    // https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/LaunchServicesKeys.html#//apple_ref/doc/uid/TP40009250-SW8
     appCategoryType: 'public.app-category.music',
-    out: paths.releaseBuilds,
-    icon: path.join(paths.src, 'resources/mac/midi-1024.png.icns'),
-    quiet: true
+
+    out: paths.build,
+    // icon: path.join(paths.src, 'resources/mac/midi-1024.png.icns'),
   })
 }
