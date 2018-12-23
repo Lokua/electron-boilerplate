@@ -10,7 +10,9 @@
   <div id="root"></div>
 
   <script>
+    // TODO: uncomment me to see what's really going on and fix
     global.ELECTRON_DISABLE_SECURITY_WARNINGS = true
+    
     require = require('esm')(module)
     require('./renderer.mjs')
   </script>

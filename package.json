@@ -9,10 +9,15 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "esm": "3.0.84"
-  },
   "devDependencies": {
-    "electron": "4.0.0"
+    "chalk": "2.4.1",
+    "electron": "4.0.0",
+    "electron-packager": "13.0.1",
+    "rimraf": "2.6.2"
+  },
+  "dependencies": {
+    "esm": "3.0.84",
+    "react": "16.7.0",
+    "react-dom": "16.7.0"
   }
 }
