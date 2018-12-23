@@ -12,6 +12,9 @@
   <script>
     // TODO: uncomment me to see what's really going on and fix
     global.ELECTRON_DISABLE_SECURITY_WARNINGS = true
+
+    // https://github.com/facebook/react/issues/3877
+    __REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true }
     
     require = require('esm')(module)
     require('./renderer.mjs')

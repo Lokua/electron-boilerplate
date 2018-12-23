@@ -7,7 +7,12 @@
     "start": "npx electron .",
     "build": "node scripts/build"
   },
-  "keywords": ["electron", "boilerplate", "minimal", "react"],
+  "keywords": [
+    "electron",
+    "boilerplate",
+    "minimal",
+    "react"
+  ],
   "author": "Joshua Kleckner <lokua@lokua.net> (https://github.com/Lokua)",
   "license": "ISC",
   "repository": {
@@ -18,9 +23,11 @@
     "chalk": "2.4.1",
     "electron": "4.0.0",
     "electron-packager": "13.0.1",
+    "electron-reload": "1.4.0",
     "rimraf": "2.6.2"
   },
   "dependencies": {
+    "electron-is-dev": "1.0.1",
     "esm": "3.0.84",
     "react": "16.7.0",
     "react-dom": "16.7.0"
