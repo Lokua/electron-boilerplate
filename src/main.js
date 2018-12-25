@@ -12,19 +12,17 @@ powerSaveBlocker.start('prevent-display-sleep')
 const dirname = path.dirname(new URL(import.meta.url).pathname)
 
 if (isDev) {
-  import('electron-reload').then(m => {
-    m.default(dirname)
-  })
+  import('electron-reloader').then(m => m.default(module))
 }
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800, 
     height: 600,
+    title: 'Electron Boilerplate',
+    titleBarStyle: 'hidden',
     webPreferences: {
       nodeIntegration: true,
     },
@@ -37,11 +35,12 @@ function createWindow() {
       slashes: true,
     })
   )
-
-  mainWindow.webContents.openDevTools({
-    mode: 'bottom',
-    // mode: 'detach',
-  })
+  
+  if (isDev) {
+    mainWindow.webContents.openDevTools({
+      mode: 'detach',
+    })
+  }
 
   mainWindow.on('closed', () => {
     mainWindow = null
