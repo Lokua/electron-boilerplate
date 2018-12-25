@@ -31,7 +31,6 @@
     "chalk": "2.4.1",
     "electron": "4.0.0",
     "electron-packager": "13.0.1",
-    "electron-reload": "1.4.0",
     "electron-reloader": "0.2.0",
     "rimraf": "2.6.2"
   },
